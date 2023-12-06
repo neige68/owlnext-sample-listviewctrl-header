@@ -1,0 +1,38 @@
+// <res.rh> -*- c++ -*-
+//
+// Project owlnext-sample-listviewctrl-header
+// Copyright (C) 2023 neige68
+//
+// Note: Resource IDs
+//
+// Compiler: VC14.2
+// Library:  OWL7
+//
+
+// このファイルを ResEdit, Visual Studio IDE で編集してはいけない。
+// Visual Studio IDE で編集するのは resource.rc, resource.h とする。
+
+#include "resource.h"           // Visual Studio IDE 編集用
+
+// メニュー
+#define MAIN_MENU                               1
+
+// コマンド 200 から
+#define CM_HELPABOUT                            200
+#define CM_SAMPLE                               201
+#define CM_LOCAL                                202
+
+// アイコン 5000 から
+#define IDI_APP                                 5000
+
+// 文字列 17000 から 
+#define IDS_APPNAME                             17000
+
+// ダイアログ
+#define IDD_VERSION                             21000
+
+// コントロール
+#define IDC_PRODUCTNAME                         22000
+#define IDC_COPYRIGHT                           22001
+
+// end of <res.rh>

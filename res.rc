@@ -1,0 +1,112 @@
+// <res.rc> -*- coding: cp932-dos -*-
+//
+// Project owlnext-sample-listviewctrl-header
+// Copyright (C) 2023 neige68
+//
+// Note: Resource Script
+//
+// Compiler: VC14.2
+// Library:  OWL7
+//
+
+// このファイルを ResEdit, Visual Studio IDE で編集してはいけない。
+// Visual Studio IDE で編集するのは resource.rc, resource.h とする。
+
+#include <owl/except.rh>
+#include <owl/version.h>
+#include <owl/window.rh>
+
+#include "version.h"
+
+#include "res.rh"
+
+//------------------------------------------------------------
+
+#include <owl/except.rc>
+
+//------------------------------------------------------------
+
+//
+// Version Information resources
+//
+1 VERSIONINFO
+    FILEVERSION     VER_FILEVERSION
+    PRODUCTVERSION  VER_PRODUCTVERSION
+    FILEOS          VOS__WINDOWS32
+    FILETYPE        VFT_APP
+#ifdef NDEBUG    
+    FILEFLAGSMASK   0
+    FILEFLAGS       0
+#else
+    FILEFLAGSMASK VS_FF_DEBUG | VS_FF_SPECIALBUILD
+    FILEFLAGS VS_FFI_FILEFLAGSMASK
+#endif
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "041103A4" // 日本語(0x411), シフトJIS(CP932)(0x3a4)
+        {
+            VALUE "CompanyName", VER_COMPANYNAME // "\000"
+            VALUE "FileDescription", VER_FILEDESCRIPTION // "\000"
+            VALUE "FileVersion", VER_FILEVERSION_STR // "\000"
+            VALUE "InternalName", "DLGAPP" // "\000"
+            VALUE "LegalCopyright", VER_LEGALCOPYRIGHT // "\000"
+            VALUE "OriginalFilename", "DLGAPP.EXE" // "\000"
+            VALUE "ProductName", VER_PRODUCTNAME // "\000"
+            VALUE "ProductVersion", VER_PRODUCTVERSION_STR // "\000"
+#ifdef NDEBUG
+#else
+            VALUE "SpecialBuild", "Debug Version" // "\000"
+#endif
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x0411, 0x03a4
+    }
+}
+
+//
+// メニュー
+//
+MAIN_MENU MENU
+{
+ POPUP "ファイル(&F)"
+ {
+  MENUITEM "サンプルダイアログ(&S)", CM_SAMPLE
+  MENUITEM "終了(&X)\tAlt+F4", CM_EXIT
+ }
+ POPUP "ヘルプ(&H)"
+ {
+  MENUITEM "バージョン情報(&A)...", CM_HELPABOUT
+ }
+}
+
+//
+// Icon resources
+//
+IDI_APP            ICON           "main.ico"
+
+//
+// String Table resources
+//
+STRINGTABLE
+{
+    IDS_APPNAME                   "OWLNext Sample ListViewCtrl Header"
+}
+
+//
+// Dialog resources
+//
+
+IDD_VERSION DIALOGEX 0, 0, 200, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "バージョン情報"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,75,43,50,14
+    LTEXT           "Sample",IDC_PRODUCTNAME,5,5,190,8
+    LTEXT           "Copyright (C) 2023 neige68",IDC_COPYRIGHT,5,22,190,8
+END
+
+// end of <res.rc>
