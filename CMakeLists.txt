@@ -46,7 +46,7 @@ link_directories(${OWL}/lib)
 #------------------------------------------------------------
 
 # コンパイルオプション
-set(CMAKE_CXX_FLAGS "/EHsc /MP")
+set(CMAKE_CXX_FLAGS "/EHsc /MP /Yu\"pch.h\"")
 set(CMAKE_CXX_STANDARD "17")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D__TRACE /D__WARN /D__DEBUG=2")
 
@@ -63,7 +63,10 @@ set(SOURCE
     sampldlg.cpp
     )
 
-add_executable(${NAME} WIN32 main.cpp ${SOURCE} res.rc resource.rc)
+add_executable(${NAME} WIN32 main.cpp ${SOURCE} res.rc resource.rc pch.cpp)
+
+# プリコンパイルヘッダを生成
+set_source_files_properties(pch.cpp PROPERTIES COMPILE_FLAGS "/Yc\"pch.h\"")
 
 # ライブラリ
 set(LIBS
