@@ -15,42 +15,55 @@
 
 #include "sampldlg.h"
 
+#include "misc.h"
+
 using namespace std;
 using namespace owl;
+
+//------------------------------------------------------------
+//
+/// \class THeaderControl
+//
+/// ヘッダコントロールをサブクラス化
+//
+
+class THeaderControl : public TControl {
+public:
+    THeaderControl(HWND handle) : TControl(handle) {}
+    void EvLButtonDblClk(uint modKeys, const TPoint& point);
+
+DECLARE_RESPONSE_TABLE(THeaderControl);
+};
+
+DEFINE_RESPONSE_TABLE1(THeaderControl, TControl)
+    EV_WM_LBUTTONDBLCLK,
+END_RESPONSE_TABLE;
+
+void THeaderControl::EvLButtonDblClk(uint modKeys, const TPoint& point)
+{
+    THeaderHitTestInfo info{point}; // HD_HITTESTINFO と同じ
+    SendMessage(HDM_HITTEST, 0, TParam2(&info));
+    int col = info.iItem;
+    // ダイアログにコマンドとして送信
+    if (auto listViewCtrl = GetParentO())
+        if (auto dlg = listViewCtrl->GetParentO()) {
+            dlg->PostMessage(WM_COMMAND, CM_LOCAL, col);
+            return;
+        }
+    TControl::EvLButtonDblClk(modKeys, point);
+}
 
 //------------------------------------------------------------
 //
 // class TSampleDialog
 //
 
-//static
-WNDPROC TSampleDialog::HeaderWndProcOrig;
-
-// ヘッダコントロールのウィンドウプロシージャ
-//static
-LRESULT CALLBACK TSampleDialog::HeaderWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    if (uMsg == WM_LBUTTONDBLCLK) {
-        // ダブルクリックされた列番号を求める
-        int xPos = GET_X_LPARAM(lParam);
-        int yPos = GET_Y_LPARAM(lParam); 
-        THeaderHitTestInfo info{TPoint{xPos, yPos}}; // HD_HITTESTINFO と同じ
-        ::SendMessage(hWnd, HDM_HITTEST, 0, TParam2(&info));
-        int col = info.iItem;
-        // ダイアログにコマンドとして送信
-        HWND hwndListView = ::GetParent(hWnd);
-        HWND hwndDialog = ::GetParent(hwndListView);
-        ::PostMessage(hwndDialog, WM_COMMAND, CM_LOCAL, col);
-    }
-    return ::CallWindowProc(HeaderWndProcOrig, hWnd, uMsg, wParam, lParam);
-}
-
 DEFINE_RESPONSE_TABLE1(TSampleDialog, TDialog)
     EV_LVN_GETDISPINFO(IDC_LISTVIEW, LVNGetDispInfo),
 END_RESPONSE_TABLE;
 
 TSampleDialog::TSampleDialog(TWindow* parent, int resourceId)
-    : TDialog(parent, resourceId)
+    : TDialog(parent, resourceId), HeaderControl(nullptr)
 {
     ListWindow = new TListViewCtrl{this, IDC_LISTVIEW};
     ListWindow->Attr.Style |= LVS_REPORT;
@@ -62,12 +75,9 @@ void TSampleDialog::SetupWindow()
     //
     ListWindow->ModifyStyle(LVS_NOSORTHEADER, 0);
     ListWindow->ModifyStyle(LVS_NOCOLUMNHEADER, 0);
-    {
-        // ヘッダコントロールのサブクラス化
-        HWND hwndHeader = ListWindow->GetHeaderCtrl();
-        HeaderWndProcOrig = reinterpret_cast<WNDPROC>(::GetWindowLongPtr(hwndHeader, GWLP_WNDPROC));
-        ::SetWindowLongPtr(hwndHeader, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&HeaderWndProc));
-    }
+    // ヘッダコントロールのサブクラス化
+    HeaderControl = new THeaderControl(ListWindow->GetHeaderCtrl());
+    //
     for (int i = 0; i < 5; i++) {
         TCHAR title[10];
         _stprintf_s(title, _T("col%d"), i);
@@ -78,6 +88,14 @@ void TSampleDialog::SetupWindow()
         _stprintf_s(title, _T("row%d"), i);
         ListWindow->AddItem(TLvItem{title});
     }
+}
+
+void TSampleDialog::CleanupWindow()
+{
+    delete HeaderControl;
+    HeaderControl = nullptr;
+    //
+    TDialog::CleanupWindow();
 }
 
 // 表示内容

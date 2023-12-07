@@ -28,21 +28,13 @@
 
 class TSampleDialog : public owl::TDialog {
 
-    // *** static ***
-    /// ヘッダコントロールの元のウィンドウプロシージャ
-    //
-    /// これが static データメンバなので、このクラスは複数同時にインスタンス化できないことになる
-    static WNDPROC HeaderWndProcOrig;
-
-    /// ヘッダコントロールのウィンドウプロシージャ
-    static LRESULT CALLBACK HeaderWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
     // *** constructor ***
 public:
     TSampleDialog(owl::TWindow* parent, int resourceId);
 
     // *** OWL override ***
     void SetupWindow() override;
+    void CleanupWindow() override;
     
     // *** response ***
     /// 表示内容
@@ -53,6 +45,7 @@ public:
     // *** data ***
 private:
     owl::TListViewCtrl* ListWindow;
+    class THeaderControl* HeaderControl;
     
 DECLARE_RESPONSE_TABLE(TSampleDialog);
 };
