@@ -23,7 +23,7 @@
 
 //------------------------------------------------------------
 //
-// ODS - OutputDebugString
+/// OutputDebugString
 //
 
 #ifdef NDEBUG
@@ -38,7 +38,8 @@
     } while (0)
 #endif
 
-class TDebugMonitorStarter {    // デバッグモニタを始動
+/// デバッグモニタを始動
+class TDebugMonitorStarter {
 public:
     static TDebugMonitorStarter& Instance();
 private:
@@ -60,8 +61,9 @@ TDebugMonitorStarter& TDebugMonitorStarter::Instance()
 // local
 //
 
-// システムのエラーメッセージを取得
-// inserts は無視(そのまま)
+/// システムのエラーメッセージを取得
+//
+/// inserts は無視(そのまま)
 static owl::tstring GetErrorMessage(DWORD id, DWORD dwLanguageId = 0)
 {
     TCHAR* buf = 0;
@@ -73,6 +75,7 @@ static owl::tstring GetErrorMessage(DWORD id, DWORD dwLanguageId = 0)
     return result;
 }
 
+/// 文字列リソースのロード
 static owl::tstring LoadStr(UINT uID, HINSTANCE hInstance = 0)
 {
     std::vector<TCHAR> buf(64);
@@ -91,7 +94,7 @@ static owl::tstring LoadStr(UINT uID, HINSTANCE hInstance = 0)
 
 //------------------------------------------------------------
 //
-// class TVersionInfoDialog - バージョン情報ダイアログ
+// class TVersionInfoDialog
 //
 
 static void CenteringDlgItem(owl::TWindow& parent, int id)
@@ -110,6 +113,7 @@ static void CenteringDlgItem(owl::TWindow& parent, int id)
                    SWP_NOZORDER);
 }
 
+/// バージョン情報ダイアログ
 class TVersionInfoDialog : public owl::TDialog {
 public:
     TVersionInfoDialog(TWindow* parent) : owl::TDialog(parent, IDD_VERSION) {}
@@ -126,9 +130,10 @@ public:
 
 //------------------------------------------------------------
 //
-// class TMyClientWindow - アプリケーションフレームのクライアントウィンドウ
+// class TMyClientWindow
 //
 
+/// アプリケーションフレームのクライアントウィンドウ
 class TMyClientWindow : public owl::TWindow {
 
     // *** constructor ***
@@ -139,9 +144,10 @@ public:
 
 //------------------------------------------------------------
 //
-// class TMyFrameWindow - アプリケーションのフレームウインドウ
+// class TMyFrameWindow
 //
 
+/// アプリケーションのフレームウインドウ
 class TMyFrameWindow : public owl::TFrameWindow {
 public:
     TMyFrameWindow(LPCTSTR title, TWindow* clientWnd)
@@ -152,9 +158,10 @@ public:
 
 //------------------------------------------------------------
 //
-// class TMyApp - アプリケーションクラス
+// class TMyApp
 //
 
+/// アプリケーションクラス
 class TMyApp : public owl::TApplication {
 public:
     TMyApp(LPCTSTR title) : owl::TApplication(title) {}
