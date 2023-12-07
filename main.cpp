@@ -12,6 +12,7 @@
 #include "pch.h"
 #pragma hdrstop
 
+#include "misc.h"
 #include "sampldlg.h"           // TSampleDialog
 #include "version.h"
 
@@ -20,41 +21,6 @@
 #include <vector>               // std::vector
 
 #include "res.rh"
-
-//------------------------------------------------------------
-//
-/// OutputDebugString
-//
-
-#ifdef NDEBUG
-# define ODS(s) ((void)0)
-#else
-# define ODS(s)                                         \
-    do {                                                \
-        TDebugMonitorStarter::Instance();               \
-        owl::tostringstream ODS_oss;                    \
-        ODS_oss << s << std::endl;                      \
-        ::OutputDebugString(ODS_oss.str().c_str());     \
-    } while (0)
-#endif
-
-/// デバッグモニタを始動
-class TDebugMonitorStarter {
-public:
-    static TDebugMonitorStarter& Instance();
-private:
-    TDebugMonitorStarter() {
-        PostMessage(HWND_BROADCAST, RegisterWindowMessage(_T("StartDebugMonitor")), GetCurrentProcessId(), 0);
-        OutputDebugString(_T("StartDebugMonitor\r\n"));
-    }
-};
-
-//static
-TDebugMonitorStarter& TDebugMonitorStarter::Instance()
-{
-    static TDebugMonitorStarter instance;
-    return instance;
-};
 
 //------------------------------------------------------------
 //

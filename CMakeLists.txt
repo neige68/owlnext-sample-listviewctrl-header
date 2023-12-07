@@ -54,6 +54,7 @@ add_link_options(/MANIFEST:NO /SUBSYSTEM:WINDOWS)
 
 # ソース
 set(SOURCE
+    misc.cpp
     sampldlg.cpp
     )
 
