@@ -34,14 +34,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 # Include/Link Dir # add_executable より前じゃないとだめらしい
 message(STATUS "LGS: $ENV{LGS}")
-if ("$ENV{LGS}" EQUAL 0)
-    set(OWL "u:/lib/owl/7.0.10-patched")
-else()
-    set(OWL "u:/lib/owl/7.0.10-patched")
-endif()
-message(STATUS "OWL: ${OWL}")
-include_directories(${OWL}/include)
-link_directories(${OWL}/lib)
+include_directories($ENV{OWLROOT}/include)
+link_directories($ENV{OWLROOT}/lib)
 
 #------------------------------------------------------------
 
