@@ -77,13 +77,13 @@ static owl::tstring LoadStr(UINT uID, HINSTANCE hInstance = 0)
 {
     std::vector<TCHAR> buf(64);
     for (;;) {
-        int r = LoadString(hInstance, uID, &buf.at(0), buf.size());
+        int r = LoadString(hInstance, uID, &buf.at(0), int(buf.size()));
         if (r == 0) {
             if (DWORD e = GetLastError())
                 throw std::runtime_error{owl::TString{_T("LoadStr: ") + GetErrorMessage(e)}};
             throw std::runtime_error("LoadStr: no string resource. (id=" + std::to_string(uID) + ", hInstance=" + std::to_string(reinterpret_cast<INT_PTR>(hInstance)) + ")");
         }
-        if (r < buf.size() - 2) break;
+        if (size_t(r) < buf.size() - 2) break;
         buf.resize(buf.size() * 2);
     }
     return &buf.at(0);
@@ -104,7 +104,7 @@ static void CenteringDlgItem(owl::TWindow& parent, int id)
     owl::TScreenDC dc;
     dc.SelectObject(owl::TFont(parent.GetWindowFont()));
     owl::tstring text = parent.GetDlgItemText(id);
-    int width = dc.GetTextExtent(text, text.length()).cx;
+    int width = dc.GetTextExtent(text, int(text.length())).cx;
     ::SetWindowPos(hwnd, 0,
                    (clientRect.Width() - width) / 2, ccRect.top, width + 2, ccRect.Height(),
                    SWP_NOZORDER);

@@ -46,7 +46,7 @@ link_directories(${OWL}/lib)
 #------------------------------------------------------------
 
 # コンパイルオプション
-set(CMAKE_CXX_FLAGS "/EHsc /MP /Yu\"pch.h\"")
+set(CMAKE_CXX_FLAGS "/EHsc /MP /W3 /Yu\"pch.h\"")
 set(CMAKE_CXX_STANDARD "17")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D__TRACE /D__WARN /D__DEBUG=2")
 
