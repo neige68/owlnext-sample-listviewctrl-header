@@ -10,6 +10,7 @@ rem Windows:   XP and lator
 rem
 
 rem %1 : LGS : "0" or "1"
+rem %2 : UNICODE : "UNICODE" or ""
 
 setlocal
 set LGS=%1
