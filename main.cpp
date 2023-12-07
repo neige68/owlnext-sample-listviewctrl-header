@@ -193,7 +193,7 @@ void TMyApp::CmSample()
 // OwlMain 
 //
 
-int OwlMain(int argc, TCHAR** argv)
+int OwlMain(int /*argc*/, TCHAR** /*argv*/)
 {
     owl::tstring title = _T("(title not loaded)");
     int result = -1;
